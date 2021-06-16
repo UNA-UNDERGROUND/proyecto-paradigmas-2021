@@ -5,6 +5,8 @@
 #include <flags_util.h>
 #include <stdio.h>
 
+const int max_solutions = 1;
+
 // las 8 direcciones del caballo
 typedef enum Direction {
 	LEFT_UP,    // ROW- col+
@@ -65,6 +67,9 @@ void saltoCaballoR(Move pos, int salto) {
 				numSoluciones++;
 				if (numSoluciones == 1)
 					draw_board();
+				if((totSoluciones + numSoluciones) >= max_solutions){
+					return;
+				}
 			}
 			saltoCaballoR(next_move, salto + 1);
 			board->field[row][col] = 0; // se desanota el ultimo movimiento
@@ -100,6 +105,9 @@ void saltoCaballo(int x, int y) {
 			board->field[row][col] = 0; // se desanota el ultimo movimiento
 		}
 		totSoluciones += numSoluciones;
+		if(totSoluciones >= max_solutions){
+			return; 
+		}
 	}
 }
 
