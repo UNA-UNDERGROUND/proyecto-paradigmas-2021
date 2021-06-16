@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const unsigned int board_len = 8;
+unsigned int board_len = 8;
 
 Board *board;
 
@@ -27,6 +27,9 @@ void free_board() {
 }
 
 int get_board_dimension() { return board_len; }
+void set_board_dimension(int size){
+	board_len = size;
+}
 Board *get_board() {
 	if (!board) {
 		init_board();
