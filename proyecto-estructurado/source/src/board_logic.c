@@ -5,7 +5,7 @@
 #include <flags_util.h>
 #include <stdio.h>
 
-const int max_solutions = 1;
+int max_solutions = 1;
 
 // las 8 direcciones del caballo
 typedef enum Direction {
@@ -111,6 +111,10 @@ void saltoCaballo(int x, int y) {
 			return;
 		}
 	}
+}
+
+void set_max_solutions(int solutions){
+	max_solutions = solutions;
 }
 
 void solve_board(int row, int col) {
