@@ -41,11 +41,11 @@ int parse_arguments(int argc, char *argv[]) {
 			filaInicial = atoi(argv[1]);
 			colInicial = atoi(argv[2]);
 			if ((filaInicial < 0) || (filaInicial >= dimension)) {
-				printf("Fila debe estar en el rango 0..%d\n", dimension);
+				printf("Fila debe estar en el rango [0, %d[\n", dimension);
 				return -1;
 			}
 			if ((colInicial < 0) || (colInicial >= dimension)) {
-				printf("Columna debe estar en el rango 0..%d\n", dimension);
+				printf("Columna debe estar en el rango [0, %d[\n", dimension);
 				return -1;
 			}
 		}

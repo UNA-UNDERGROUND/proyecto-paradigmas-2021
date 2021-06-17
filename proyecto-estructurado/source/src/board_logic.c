@@ -55,7 +55,9 @@ int nextField(Board *board, Move pos, Direction direction, Move *res) {
 
 void saltoCaballoR(Move pos, int salto) {
 	Board *board = get_board();
-	for (int direction = 0; direction < 8; direction++) {
+	for (int direction = 0;
+	     direction < 8 && totSoluciones + numSoluciones < max_solutions;
+	     direction++) {
 		Move next_move;
 		int res = nextField(board, pos, direction, &next_move);
 		if (res) {
@@ -65,9 +67,9 @@ void saltoCaballoR(Move pos, int salto) {
 			int dimension = board->dimension * board->dimension;
 			if (salto == dimension) { // si ya ha recorrido todo el tablero
 				numSoluciones++;
-				if (numSoluciones == 1)
+				if (numSoluciones >= 1)
 					draw_board();
-				if((totSoluciones + numSoluciones) >= max_solutions){
+				if ((totSoluciones + numSoluciones) >= max_solutions) {
 					return;
 				}
 			}
@@ -105,8 +107,8 @@ void saltoCaballo(int x, int y) {
 			board->field[row][col] = 0; // se desanota el ultimo movimiento
 		}
 		totSoluciones += numSoluciones;
-		if(totSoluciones >= max_solutions){
-			return; 
+		if (totSoluciones >= max_solutions) {
+			return;
 		}
 	}
 }
