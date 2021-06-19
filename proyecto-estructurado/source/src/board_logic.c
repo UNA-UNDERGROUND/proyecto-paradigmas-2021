@@ -100,7 +100,7 @@ void saltoCaballo(int x, int y) {
 			saltoCaballoR(next_field, 3);
 			if (get_benchmark_level() > 1) {
 				stop_benchmark(&bench_t);
-				time_t *result_t = &(bench_t.result_t);
+				clock_t *result_t = &(bench_t.result_t);
 				printf("NumSoluciones = %d, ms: %f\n", totSoluciones,
 				       (double)(*result_t));
 			}
@@ -129,7 +129,7 @@ void solve_board(int row, int col) {
 	saltoCaballo(row, col);
 	if (get_benchmark_level() > 0) {
 		stop_benchmark(&bench_t);
-		time_t *result_t = &(bench_t.result_t);
+		clock_t *result_t = &(bench_t.result_t);
 		printf("NumSoluciones = %d, ms: %f\n", totSoluciones,
 		       (double)(*result_t));
 	}
