@@ -1,7 +1,3 @@
-
-// basado en
-// https://www.etsisi.upm.es/sites/default/files/asigs/arquitecturas_avanzadas/practicas/MPI/caballo.pdf
-
 #include <board_logic.h>
 #include <board_mem.h>
 #include <flags_util.h>
