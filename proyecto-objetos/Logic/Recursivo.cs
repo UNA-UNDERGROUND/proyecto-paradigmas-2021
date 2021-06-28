@@ -5,10 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-/*
-    Codigo inspirado en el trabajo de Carlos Marin
-    github.com/carlitosmarin/Backtracking-Caballo-Ajedrez
- */
+
 namespace proyectoParadigmas.Logic
 {
     public class Recursivo : Metodo

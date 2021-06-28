@@ -6,11 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
-    Codigo inspirado en el trabajo de GeeksforGeeks
-    www.geeksforgeeks.org/warnsdorffs-algorithm-knights-tour-problem/
-
- */
 
 namespace proyectoParadigmas.Logic
 {
