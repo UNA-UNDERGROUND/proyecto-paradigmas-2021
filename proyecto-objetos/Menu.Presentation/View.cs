@@ -32,8 +32,14 @@ namespace proyectoParadigmas.Menu.Presentation
             int x = int.Parse(inicialX.Text);
             int y = int.Parse(inicialY.Text);
             int d = int.Parse(dimension.Text);
+            int t = Solucion.SelectedIndex;
 
-            controller.recorridoShow(x, y, d);
+            controller.recorridoShow(x, y, d, t);
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
 
         }
     }

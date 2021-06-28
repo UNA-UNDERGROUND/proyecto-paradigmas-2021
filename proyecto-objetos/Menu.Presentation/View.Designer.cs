@@ -38,6 +38,8 @@ namespace proyectoParadigmas.Menu.Presentation
             this.inicialX = new System.Windows.Forms.TextBox();
             this.inicialY = new System.Windows.Forms.TextBox();
             this.dimension = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.Solucion = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // button1
@@ -98,7 +100,7 @@ namespace proyectoParadigmas.Menu.Presentation
             // 
             // inicialX
             // 
-            this.inicialX.Location = new System.Drawing.Point(95, 182);
+            this.inicialX.Location = new System.Drawing.Point(128, 183);
             this.inicialX.Name = "inicialX";
             this.inicialX.Size = new System.Drawing.Size(100, 20);
             this.inicialX.TabIndex = 6;
@@ -106,7 +108,7 @@ namespace proyectoParadigmas.Menu.Presentation
             // 
             // inicialY
             // 
-            this.inicialY.Location = new System.Drawing.Point(95, 214);
+            this.inicialY.Location = new System.Drawing.Point(128, 215);
             this.inicialY.Name = "inicialY";
             this.inicialY.Size = new System.Drawing.Size(100, 20);
             this.inicialY.TabIndex = 7;
@@ -114,17 +116,40 @@ namespace proyectoParadigmas.Menu.Presentation
             // 
             // dimension
             // 
-            this.dimension.Location = new System.Drawing.Point(95, 104);
+            this.dimension.Location = new System.Drawing.Point(128, 105);
             this.dimension.Name = "dimension";
             this.dimension.Size = new System.Drawing.Size(100, 20);
             this.dimension.TabIndex = 8;
             this.dimension.Text = "8";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 255);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(88, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Tipo de solucion:";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
+            // 
+            // Solucion
+            // 
+            this.Solucion.FormattingEnabled = true;
+            this.Solucion.Items.AddRange(new object[] {
+            "Backtracking",
+            "WarnsDorff"});
+            this.Solucion.Location = new System.Drawing.Point(128, 252);
+            this.Solucion.Name = "Solucion";
+            this.Solucion.Size = new System.Drawing.Size(121, 21);
+            this.Solucion.TabIndex = 10;
             // 
             // View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(352, 438);
+            this.Controls.Add(this.Solucion);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.dimension);
             this.Controls.Add(this.inicialY);
             this.Controls.Add(this.inicialX);
@@ -152,5 +177,7 @@ namespace proyectoParadigmas.Menu.Presentation
         private System.Windows.Forms.TextBox inicialX;
         private System.Windows.Forms.TextBox inicialY;
         private System.Windows.Forms.TextBox dimension;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox Solucion;
     }
 }

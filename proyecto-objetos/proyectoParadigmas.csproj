@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,8 +50,11 @@
   <ItemGroup>
     <Compile Include="Data\ListaDeSoluciones.cs" />
     <Compile Include="Logic\Casilla.cs" />
+    <Compile Include="Logic\Metodo.cs" />
+    <Compile Include="Logic\Recursivo.cs" />
     <Compile Include="Logic\SaltoDeCaballo.cs" />
     <Compile Include="Logic\Tablero.cs" />
+    <Compile Include="Logic\WarnsDorff.cs" />
     <Compile Include="Menu.Presentation\Controller.cs" />
     <Compile Include="Menu.Presentation\View.cs">
       <SubType>Form</SubType>

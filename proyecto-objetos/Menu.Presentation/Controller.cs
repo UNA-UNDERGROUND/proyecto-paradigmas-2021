@@ -20,10 +20,10 @@ namespace proyectoParadigmas.Menu.Presentation
 
         }
 
-        public void recorridoShow(int x, int y, int d)
+        public void recorridoShow(int x, int y, int d, int t)
         {
 
-            recoController = new Recorrido.presentation.Controller(y, x, d);
+            recoController = new Recorrido.presentation.Controller(y, x, d, t);
             recoController.show();
 
 
