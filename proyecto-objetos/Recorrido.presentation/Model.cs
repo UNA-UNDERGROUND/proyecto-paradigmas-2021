@@ -1,4 +1,5 @@
-﻿using System;
+﻿using proyectoParadigmas.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace proyectoParadigmas.Recorrido.presentation
 
         public Model()
         {
-            listaDeSaltos = new ArrayList();
+            listaDeSaltos = ListaDeSoluciones.getInstance().Lista;
         }
 
         public ArrayList ListaDeSaltos { get => listaDeSaltos; set => listaDeSaltos = value; }

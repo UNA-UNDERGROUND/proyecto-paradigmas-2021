@@ -71,7 +71,7 @@ namespace proyectoParadigmas.Recorrido.presentation
         private void View_Load(object sender, EventArgs e)
         {
             llenarDataGrid();
-            Tablero.Rows[xActual].Cells[yActual].Value = "Caballo";
+            Tablero.Rows[xActual].Cells[yActual].Value = "🐎";
 
         }
 
@@ -91,9 +91,26 @@ namespace proyectoParadigmas.Recorrido.presentation
                 yActual = ((SaltoDeCaballo)model.ListaDeSaltos[cont]).Y;
 
 
-                Tablero.Rows[xActual].Cells[yActual].Value = "Caballo";
+                Tablero.Rows[xActual].Cells[yActual].Value = "🐎";
             }
 
+
+        }
+
+        private void terminar_Click(object sender, EventArgs e)
+        {
+
+            while (cont > 0)
+            {
+                Tablero.Rows[xActual].Cells[yActual].Value = (model.ListaDeSaltos.Count - cont);
+                cont--;
+
+                xActual = ((SaltoDeCaballo)model.ListaDeSaltos[cont]).X;
+                yActual = ((SaltoDeCaballo)model.ListaDeSaltos[cont]).Y;
+
+
+                Tablero.Rows[xActual].Cells[yActual].Value = "🐎";
+            }
 
         }
     }
