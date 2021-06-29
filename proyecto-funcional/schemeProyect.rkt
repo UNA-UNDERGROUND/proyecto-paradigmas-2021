@@ -26,17 +26,17 @@
 
 
 ; tests whether x,y is a position out of the boundaries of matrix l
-(define (out-of-bounds? l x y)
-  (or
+(define (movimiento-valido l x y)
+  (not (or
    (< x 0)                          ; negative index
    (< y 0)                          ; negative index
    (>= y (length l))                ; less rows
-   (>= x (length (list-ref l y))))) ; less columns in row
+   (>= x (length (list-ref l y)))))) ; less columns in row
 
 ; returns the value of the field at x,y of the matrix l or #<void>
 ; if x,y denotes a field outside the boundaries of the matrix
 (define (list-ref-xy l x y)
-  (if (not (out-of-bounds? l x y))
+  (if (movimiento-valido l x y)
       (list-ref (list-ref l y) x)'()))
 
 ; first k elements of l or a copy of l if l has less than k elements
@@ -72,10 +72,10 @@
 
 ; possible moves for player at poscolumn,posrow in field
 (define (getlistofmoves poscolumn posrow field)
-  (grep movements (lambda (m) (not (out-of-bounds?
+  (grep movements (lambda (m) (movimiento-valido
                                       field
                                       (+ poscolumn (move-x m))
-                                      (+ posrow (move-y m)))))))
+                                      (+ posrow (move-y m))))))
 
 ; right-aligns a number in a string
 (define (fn x)
