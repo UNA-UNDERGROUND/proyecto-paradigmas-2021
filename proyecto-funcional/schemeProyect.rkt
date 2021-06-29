@@ -12,8 +12,8 @@
    (make-move +1 -2) ; DOWN_RIGHT
    (make-move -1 -2) ; DOWN_LEFT
    (make-move -2 -1) ; LEFT_DOWN
+   )
   )
-)
 
 
 
@@ -68,9 +68,9 @@
 ; possible moves for player at poscolumn,posrow in field
 (define (getlistofmoves poscolumn posrow field)
   (grep movements (lambda (m) (movimiento-valido
-                                      field
-                                      (+ poscolumn (move-x m))
-                                      (+ posrow (move-y m))))))
+                               field
+                               (+ poscolumn (move-x m))
+                               (+ posrow (move-y m))))))
 
 ; right-aligns a number in a string
 (define (fn x)
@@ -101,22 +101,22 @@
 ; crea el tablero
 (define (crear-tablero dimension)
   (define (inicializar-lista n)
-  (if (<= n 0) '()
-     (cons 0 (inicializar-lista (- n 1))))
-  )
+    (if (<= n 0) '()
+        (cons 0 (inicializar-lista (- n 1))))
+    )
   (define (inicializar-arreglo n)
-  (if (<= n 0) '()
-     (cons (inicializar-lista dimension) (inicializar-arreglo (- n 1))))
-  )
+    (if (<= n 0) '()
+        (cons (inicializar-lista dimension) (inicializar-arreglo (- n 1))))
+    )
   (inicializar-arreglo dimension)
-)
+  )
 
 
 ; Entry point, setup field/possible moves and place knight to start
 (define (start dimension x y)
   (let ((field (crear-tablero dimension)))
     (if (not (turn dimension (set-element-at-xy field x y 1)
-          x y (getlistofmoves x y field) 1))
-    (display "There is no applicable solution\n")'())))
+                   x y (getlistofmoves x y field) 1))
+        (display "There is no applicable solution\n")'())))
 
 (start 6 0 0)
