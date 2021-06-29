@@ -34,19 +34,17 @@
         (>= x (length (list-ref l y)))))) ; mayor que la dimension
 
 
-; first k elements of l or a copy of l if l has less than k elements
-(define (list-head l k)
-  (if (and (> k 0) (not (null? l)))
-      (cons (car l) (list-head (cdr l) (- k 1)))
-      '()))
-
-; turns a modified copy of the list l where the i-th element is v
-(define (set-element-at l i value)
-  (append (list-head l i) (list value) (list-tail l (+ i 1))))
-
-; turns a modified copy of the matrix l where the field at x,y is v
-(define (set-element-at-xy l x y value)
-  (set-element-at l y (set-element-at (list-ref l y) x value)))
+; crea una nueva copia de la matriz con el movimiento aplicado
+(define (aplicar-movimiento-tablero l x y value)
+  ; aplica el movimiento en una nueva lista
+  (define (aplicar-movimiento-lista l i value)
+	; permite movernos hasta la posicion indicada
+    (define (cabeza-posicion l k)
+      (if (and (> k 0) (not (null? l)))
+          (cons (car l) (cabeza-posicion (cdr l) (- k 1)))
+          '()))
+    (append (cabeza-posicion l i) (list value) (list-tail l (+ i 1))))
+  (aplicar-movimiento-lista l y (aplicar-movimiento-lista (list-ref l y) x value)))
 
 ; displays the matrix l
 (define (display-matrix l)
@@ -65,12 +63,12 @@
       (if (null? (cdr l)) (car l)
           (string-append (car l) s (join s (cdr l))))))
 
-; possible moves for player at poscolumn,posrow in field
-(define (recuperarMovimientos poscolumn posrow field)
+; recupera las posiciones posibles dada una fila y columna
+(define (recuperarMovimientos x y field)
   (grep movements (lambda (m) (movimiento-valido
                                field
-                               (+ poscolumn (move-x m))
-                               (+ posrow (move-y m))))))
+                               (+ x (move-x m))
+                               (+ y (move-y m))))))
 
 ; right-aligns a number in a string
 (define (fn x)
@@ -90,7 +88,7 @@
             (ny (+ y (move-y (car moves))))                ; new y
             (nv (+ visited 1))                             ; new visited
             (nm (recuperarMovimientos nx ny field))              ; new moves
-            (nf (set-element-at-xy field nx ny nv))        ; new field
+            (nf (aplicar-movimiento-tablero field nx ny nv))        ; new field
             (uv (= (valor-campo field nx ny) 0))) ; unvisited?
        
        ; if the next field is visited or if it is unvisited and does not
@@ -115,7 +113,7 @@
 ; Entry point, setup field/possible moves and place knight to start
 (define (saltoCaballo dimension x y)
   (let ((field (crear-tablero dimension)))
-    (if (not (saltoCaballoR dimension (set-element-at-xy field x y 1)
+    (if (not (saltoCaballoR dimension (aplicar-movimiento-tablero field x y 1)
                             x y (recuperarMovimientos x y field) 1))
         (display "solucion no encontrada\n")'())))
 
