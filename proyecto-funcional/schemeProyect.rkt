@@ -35,6 +35,23 @@
     (append (cabeza-posicion l i) (list value) (list-tail l (+ i 1))))
   (aplicar-movimiento-lista l y (aplicar-movimiento-lista (list-ref l y) x value)))
 
+
+
+; recupera las posiciones posibles dada una fila y columna
+(define (recuperarMovimientos x y field)
+  ; nos permite filtrar los movimientos validos
+  ; la version de C intentaba primero, a diferiencia
+  ; de este que genera una lista
+  (define (filtrar l comp)
+    (if (null? l) '()
+        (let ((r (filtrar (cdr l) comp)))
+          (if (comp (car l)) (cons (car l) r) r))))
+  (filtrar movements (lambda (m) (movimiento-valido
+                                  field
+                                  (+ x (move-x m))
+                                  (+ y (move-y m))))))
+
+
 ; muestra un tablero
 (define (mostrar-tablero l)
   ; nos permite alinear los numeros
@@ -53,39 +70,25 @@
       (mostrar-tablero (cdr l))'())
   )
 
-; recupera las posiciones posibles dada una fila y columna
-(define (recuperarMovimientos x y field)
-  ; nos permite filtrar los movimientos validos
-  ; la version de C intentaba primero, a diferiencia
-  ; de este que genera una lista
-  (define (filtrar l comp)
-    (if (null? l) '()
-        (let ((r (filtrar (cdr l) comp)))
-          (if (comp (car l)) (cons (car l) r) r))))
-  (filtrar movements (lambda (m) (movimiento-valido
-                               field
-                               (+ x (move-x m))
-                               (+ y (move-y m))))))
-
 ; salto recursivo del caballo
 (define (saltoCaballoR dimension field x y moves visited)
   (define (valor-campo l x y)
     (if (movimiento-valido l x y)
         (list-ref (list-ref l y) x)'()))
   (cond
-    ; saltoCaballoR should turn #t in this case but (exit) is required...
+    ; saltoCaballoR should return #t in this case but (exit) is required...
     ((= visited (* dimension dimension)) (mostrar-tablero field) (exit))
     ((null? moves) #f)
     (else
-     (let* ((nx (+ x (move-x (car moves))))                ; new x
-            (ny (+ y (move-y (car moves))))                ; new y
-            (nv (+ visited 1))                             ; new visited
-            (nm (recuperarMovimientos nx ny field))              ; new moves
-            (nf (aplicar-movimiento-tablero field nx ny nv))        ; new field
-            (uv (= (valor-campo field nx ny) 0))) ; unvisited?
-       
-       ; if the next field is visited or if it is unvisited and does not
-       ; yield in a solution, try the next move in the list of moves
+	;campos nuevos
+     (let* ((nx (+ x (move-x (car moves))))                     ; x
+            (ny (+ y (move-y (car moves))))                     ; y
+            (nv (+ visited 1))                                  ; visitado
+            (nm (recuperarMovimientos nx ny field))             ; movimientos
+            (nf (aplicar-movimiento-tablero field nx ny nv))    ; tablero
+            (uv (= (valor-campo field nx ny) 0)))               ; sin visitar
+	   ; intentar la solucion siguiente si visitado o si no esta visitado y
+	   ; no proporciona una solucion
        (if (or (and uv (not (saltoCaballoR dimension nf nx ny nm nv))) (not uv))
            (saltoCaballoR dimension field x y (cdr moves) visited)'())))))
 
