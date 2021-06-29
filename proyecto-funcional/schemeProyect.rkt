@@ -15,19 +15,7 @@
   )
 )
 
-; Bjoern Hoehrmann -- <bjoern@hoehrmann.de> -- <http://bjoern.hoehrmann.de>
 
-; Global constants and type definitions
-(define empty-char 0)
-(define HEIGHT 6)
-(define WIDTH 6)
-(define START-X 0)
-(define START-Y 0)
-(define-struct move (x y))
-(define knightmoves
-  (list
-   (make-move -1 -2) (make-move  1 -2) (make-move  2 -1) (make-move  2  1)
-   (make-move  1  2) (make-move -1  2) (make-move -2  1) (make-move -2 -1)))
 
 ; greps all elements in l for which a comparison 
 ; with comp yields in a true value
@@ -36,16 +24,6 @@
       (let ((r (grep (cdr l) comp)))
         (if (comp (car l)) (cons (car l) r) r))))
 
-; creates a list with n elements using the function func to create each
-; element. Function func takes one parameter indicating the number of
-; elements still to be created including the current element.
-(define (create-list n func)
-  (if (<= n 0) '()
-      (cons (func n) (create-list (- n 1) func))))
-
-; creates a matrix with n,m fields using func
-(define (create-list-xy n m func)
-  (create-list n (lambda(i) (create-list m func))))
 
 ; tests whether x,y is a position out of the boundaries of matrix l
 (define (out-of-bounds? l x y)
