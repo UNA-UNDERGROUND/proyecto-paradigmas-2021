@@ -40,11 +40,11 @@
       (cons (car l) (list-head (cdr l) (- k 1)))
       '()))
 
-; returns a modified copy of the list l where the i-th element is v
+; resaltoCaballoRs a modified copy of the list l where the i-th element is v
 (define (set-element-at l i value)
   (append (list-head l i) (list value) (list-tail l (+ i 1))))
 
-; returns a modified copy of the matrix l where the field at x,y is v
+; resaltoCaballoRs a modified copy of the matrix l where the field at x,y is v
 (define (set-element-at-xy l x y value)
   (set-element-at l y (set-element-at (list-ref l y) x value)))
 
@@ -59,7 +59,7 @@
 
 ; converts the list of strings l to a single string by inserting the
 ; string s between all elements in l. E.g. (join "+" (list 1 2 3))
-; would return the string "1+2+3".
+; would resaltoCaballoR the string "1+2+3".
 (define (join s l)
   (if (null? l) ""
       (if (null? (cdr l)) (car l)
@@ -76,13 +76,13 @@
 (define (fn x)
   (if (> x 9) (number->string x) (string-append " " (number->string x))))
 
-; a recursive solution for the "Springerproblem"
-(define (turn dimension field x y moves visited)
+; salto recursivo del caballo
+(define (saltoCaballoR dimension field x y moves visited)
   (define (valor-campo l x y)
     (if (movimiento-valido l x y)
         (list-ref (list-ref l y) x)'()))
   (cond
-    ; turn should return #t in this case but (exit) is required...
+    ; saltoCaballoR should resaltoCaballoR #t in this case but (exit) is required...
     ((= visited (* dimension dimension)) (display-matrix field) (exit))
     ((null? moves) #f)
     (else
@@ -95,8 +95,8 @@
        
        ; if the next field is visited or if it is unvisited and does not
        ; yield in a solution, try the next move in the list of moves
-       (if (or (and uv (not (turn dimension nf nx ny nm nv))) (not uv))
-           (turn dimension field x y (cdr moves) visited)'())))))
+       (if (or (and uv (not (saltoCaballoR dimension nf nx ny nm nv))) (not uv))
+           (saltoCaballoR dimension field x y (cdr moves) visited)'())))))
 
 ; crea el tablero
 (define (crear-tablero dimension)
@@ -113,10 +113,10 @@
 
 
 ; Entry point, setup field/possible moves and place knight to start
-(define (start dimension x y)
+(define (saltoCaballo dimension x y)
   (let ((field (crear-tablero dimension)))
-    (if (not (turn dimension (set-element-at-xy field x y 1)
-                   x y (getlistofmoves x y field) 1))
-        (display "There is no applicable solution\n")'())))
+    (if (not (saltoCaballoR dimension (set-element-at-xy field x y 1)
+                            x y (getlistofmoves x y field) 1))
+        (display "solucion no encontrada\n")'())))
 
-(start 6 0 0)
+(saltoCaballo 6 0 0)
