@@ -40,11 +40,11 @@
       (cons (car l) (list-head (cdr l) (- k 1)))
       '()))
 
-; resaltoCaballoRs a modified copy of the list l where the i-th element is v
+; turns a modified copy of the list l where the i-th element is v
 (define (set-element-at l i value)
   (append (list-head l i) (list value) (list-tail l (+ i 1))))
 
-; resaltoCaballoRs a modified copy of the matrix l where the field at x,y is v
+; turns a modified copy of the matrix l where the field at x,y is v
 (define (set-element-at-xy l x y value)
   (set-element-at l y (set-element-at (list-ref l y) x value)))
 
@@ -59,14 +59,14 @@
 
 ; converts the list of strings l to a single string by inserting the
 ; string s between all elements in l. E.g. (join "+" (list 1 2 3))
-; would resaltoCaballoR the string "1+2+3".
+; would turn the string "1+2+3".
 (define (join s l)
   (if (null? l) ""
       (if (null? (cdr l)) (car l)
           (string-append (car l) s (join s (cdr l))))))
 
 ; possible moves for player at poscolumn,posrow in field
-(define (getlistofmoves poscolumn posrow field)
+(define (recuperarMovimientos poscolumn posrow field)
   (grep movements (lambda (m) (movimiento-valido
                                field
                                (+ poscolumn (move-x m))
@@ -82,14 +82,14 @@
     (if (movimiento-valido l x y)
         (list-ref (list-ref l y) x)'()))
   (cond
-    ; saltoCaballoR should resaltoCaballoR #t in this case but (exit) is required...
+    ; saltoCaballoR should turn #t in this case but (exit) is required...
     ((= visited (* dimension dimension)) (display-matrix field) (exit))
     ((null? moves) #f)
     (else
      (let* ((nx (+ x (move-x (car moves))))                ; new x
             (ny (+ y (move-y (car moves))))                ; new y
             (nv (+ visited 1))                             ; new visited
-            (nm (getlistofmoves nx ny field))              ; new moves
+            (nm (recuperarMovimientos nx ny field))              ; new moves
             (nf (set-element-at-xy field nx ny nv))        ; new field
             (uv (= (valor-campo field nx ny) 0))) ; unvisited?
        
@@ -116,7 +116,7 @@
 (define (saltoCaballo dimension x y)
   (let ((field (crear-tablero dimension)))
     (if (not (saltoCaballoR dimension (set-element-at-xy field x y 1)
-                            x y (getlistofmoves x y field) 1))
+                            x y (recuperarMovimientos x y field) 1))
         (display "solucion no encontrada\n")'())))
 
 (saltoCaballo 6 0 0)
