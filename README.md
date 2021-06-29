@@ -2,6 +2,13 @@
 
 Proyecto paradigmas de programacion UNA (2021), implementar el problema del caballo en 4 paradigmas (Objectos, Estructurado, Funcional y Logico).
 
+## Integrantes
+
+- Andres Salas Miranda 117690221
+- Jonathan Guzmán Cruz 208010443
+
+## Referencias
+
 El problema del caballo fueron inspirados en los siguientes proyectos para el analisis del problema:
 
 Algoritmo general (Usado en general y para la implementacion inicial de C):
