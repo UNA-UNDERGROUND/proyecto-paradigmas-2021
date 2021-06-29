@@ -15,16 +15,6 @@
    )
   )
 
-
-
-; greps all elements in l for which a comparison 
-; with comp yields in a true value
-(define (grep l comp)
-  (if (null? l) '()
-      (let ((r (grep (cdr l) comp)))
-        (if (comp (car l)) (cons (car l) r) r))))
-
-
 ; verifica si el movimiento esta en un rango valido
 (define (movimiento-valido l x y)
   (not (or
@@ -33,12 +23,11 @@
         (>= y (length l))                ; mayor que la dimension
         (>= x (length (list-ref l y)))))) ; mayor que la dimension
 
-
 ; crea una nueva copia de la matriz con el movimiento aplicado
 (define (aplicar-movimiento-tablero l x y value)
   ; aplica el movimiento en una nueva lista
   (define (aplicar-movimiento-lista l i value)
-	; permite movernos hasta la posicion indicada
+    	; permite movernos hasta la posicion indicada
     (define (cabeza-posicion l k)
       (if (and (> k 0) (not (null? l)))
           (cons (car l) (cabeza-posicion (cdr l) (- k 1)))
@@ -46,33 +35,37 @@
     (append (cabeza-posicion l i) (list value) (list-tail l (+ i 1))))
   (aplicar-movimiento-lista l y (aplicar-movimiento-lista (list-ref l y) x value)))
 
-; displays the matrix l
-(define (display-matrix l)
+; muestra un tablero
+(define (mostrar-tablero l)
+  ; nos permite alinear los numeros
+  (define (alinear-numero x)
+    (if (> x 9) (number->string x) (string-append " " (number->string x))))
+  ; nos permite realizar un formato de las listas a un tablero
+  ; de la misma forma que C, y python
+  (define (join s l)
+    (if (null? l) ""
+        (if (null? (cdr l)) (car l)
+            (string-append (car l) s (join s (cdr l))))))
   (display "(")
-  (display (join " " (map fn (car l))))
+  (display (join " " (map alinear-numero (car l))))
   (display ")\n")
   (if (not (null? (cdr l)))
-      (display-matrix (cdr l))'())
+      (mostrar-tablero (cdr l))'())
   )
-
-; converts the list of strings l to a single string by inserting the
-; string s between all elements in l. E.g. (join "+" (list 1 2 3))
-; would turn the string "1+2+3".
-(define (join s l)
-  (if (null? l) ""
-      (if (null? (cdr l)) (car l)
-          (string-append (car l) s (join s (cdr l))))))
 
 ; recupera las posiciones posibles dada una fila y columna
 (define (recuperarMovimientos x y field)
-  (grep movements (lambda (m) (movimiento-valido
+  ; nos permite filtrar los movimientos validos
+  ; la version de C intentaba primero, a diferiencia
+  ; de este que genera una lista
+  (define (filtrar l comp)
+    (if (null? l) '()
+        (let ((r (filtrar (cdr l) comp)))
+          (if (comp (car l)) (cons (car l) r) r))))
+  (filtrar movements (lambda (m) (movimiento-valido
                                field
                                (+ x (move-x m))
                                (+ y (move-y m))))))
-
-; right-aligns a number in a string
-(define (fn x)
-  (if (> x 9) (number->string x) (string-append " " (number->string x))))
 
 ; salto recursivo del caballo
 (define (saltoCaballoR dimension field x y moves visited)
@@ -81,7 +74,7 @@
         (list-ref (list-ref l y) x)'()))
   (cond
     ; saltoCaballoR should turn #t in this case but (exit) is required...
-    ((= visited (* dimension dimension)) (display-matrix field) (exit))
+    ((= visited (* dimension dimension)) (mostrar-tablero field) (exit))
     ((null? moves) #f)
     (else
      (let* ((nx (+ x (move-x (car moves))))                ; new x
@@ -109,8 +102,7 @@
   (inicializar-arreglo dimension)
   )
 
-
-; Entry point, setup field/possible moves and place knight to start
+; Funcion principal, equivalente a la misma funcion en C
 (define (saltoCaballo dimension x y)
   (let ((field (crear-tablero dimension)))
     (if (not (saltoCaballoR dimension (aplicar-movimiento-tablero field x y 1)
