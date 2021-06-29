@@ -25,19 +25,14 @@
         (if (comp (car l)) (cons (car l) r) r))))
 
 
-; tests whether x,y is a position out of the boundaries of matrix l
+; verifica si el movimiento esta en un rango valido
 (define (movimiento-valido l x y)
   (not (or
-   (< x 0)                          ; negative index
-   (< y 0)                          ; negative index
-   (>= y (length l))                ; less rows
-   (>= x (length (list-ref l y)))))) ; less columns in row
+        (< x 0)                          ; x es negativo
+        (< y 0)                          ; y es negativo
+        (>= y (length l))                ; mayor que la dimension
+        (>= x (length (list-ref l y)))))) ; mayor que la dimension
 
-; returns the value of the field at x,y of the matrix l or #<void>
-; if x,y denotes a field outside the boundaries of the matrix
-(define (list-ref-xy l x y)
-  (if (movimiento-valido l x y)
-      (list-ref (list-ref l y) x)'()))
 
 ; first k elements of l or a copy of l if l has less than k elements
 (define (list-head l k)
@@ -83,6 +78,9 @@
 
 ; a recursive solution for the "Springerproblem"
 (define (turn dimension field x y moves visited)
+  (define (valor-campo l x y)
+    (if (movimiento-valido l x y)
+        (list-ref (list-ref l y) x)'()))
   (cond
     ; turn should return #t in this case but (exit) is required...
     ((= visited (* dimension dimension)) (display-matrix field) (exit))
@@ -93,8 +91,8 @@
             (nv (+ visited 1))                             ; new visited
             (nm (getlistofmoves nx ny field))              ; new moves
             (nf (set-element-at-xy field nx ny nv))        ; new field
-            (uv (= (list-ref-xy field nx ny) 0))) ; unvisited?
-
+            (uv (= (valor-campo field nx ny) 0))) ; unvisited?
+       
        ; if the next field is visited or if it is unvisited and does not
        ; yield in a solution, try the next move in the list of moves
        (if (or (and uv (not (turn dimension nf nx ny nm nv))) (not uv))
