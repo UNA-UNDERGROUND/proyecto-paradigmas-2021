@@ -110,4 +110,4 @@
     (if (not solucion)
         (display "solucion no encontrada\n")'())))
 
-(saltoCaballo 6 0 0)
+(saltoCaballo 8 0 0)
