@@ -35,8 +35,6 @@
     (append (cabeza-posicion l i) (list value) (list-tail l (+ i 1))))
   (aplicar-movimiento-lista l y (aplicar-movimiento-lista (list-ref l y) x value)))
 
-
-
 ; recupera las posiciones posibles dada una fila y columna
 (define (recuperarMovimientos x y field)
   ; nos permite filtrar los movimientos validos
@@ -50,7 +48,6 @@
                                   field
                                   (+ x (move-x m))
                                   (+ y (move-y m))))))
-
 
 ; muestra un tablero
 (define (mostrar-tablero l)
@@ -76,19 +73,19 @@
     (if (movimiento-valido l x y)
         (list-ref (list-ref l y) x)'()))
   (cond
-    ; saltoCaballoR should return #t in this case but (exit) is required...
+    ; saltoCaballoR debería retornar true pero es requerido exit
     ((= visited (* dimension dimension)) (mostrar-tablero field) (exit))
     ((null? moves) #f)
     (else
-	;campos nuevos
+     	;campos nuevos
      (let* ((nx (+ x (move-x (car moves))))                     ; x
             (ny (+ y (move-y (car moves))))                     ; y
             (nv (+ visited 1))                                  ; visitado
             (nm (recuperarMovimientos nx ny field))             ; movimientos
             (nf (aplicar-movimiento-tablero field nx ny nv))    ; tablero
             (uv (= (valor-campo field nx ny) 0)))               ; sin visitar
-	   ; intentar la solucion siguiente si visitado o si no esta visitado y
-	   ; no proporciona una solucion
+       	   ; intentar la solucion siguiente si visitado o si no esta visitado y
+       	   ; no proporciona una solucion
        (if (or (and uv (not (saltoCaballoR dimension nf nx ny nm nv))) (not uv))
            (saltoCaballoR dimension field x y (cdr moves) visited)'())))))
 
@@ -108,8 +105,9 @@
 ; Funcion principal, equivalente a la misma funcion en C
 (define (saltoCaballo dimension x y)
   (let ((field (crear-tablero dimension)))
-    (if (not (saltoCaballoR dimension (aplicar-movimiento-tablero field x y 1)
-                            x y (recuperarMovimientos x y field) 1))
+    (define solucion (saltoCaballoR dimension (aplicar-movimiento-tablero field x y 1)
+                                    x y (recuperarMovimientos x y field) 1))
+    (if (not solucion)
         (display "solucion no encontrada\n")'())))
 
 (saltoCaballo 6 0 0)
