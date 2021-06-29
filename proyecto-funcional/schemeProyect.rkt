@@ -1,4 +1,19 @@
 #lang racket
+; define un movimiento como una estructura
+(define-struct move (x y))
+; las 8 direcciones del caballo, son las mismas de C
+(define movements
+  (list
+   (make-move -2 +1) ; LEFT_UP
+   (make-move -1 +2) ; UP_LEFT
+   (make-move +1 +2) ; UP_RIGHT
+   (make-move +2 +1) ; RIGHT_UP
+   (make-move +2 -1) ; RIGHT_DOWN
+   (make-move +1 -2) ; DOWN_RIGHT
+   (make-move -1 -2) ; DOWN_LEFT
+   (make-move -2 -1) ; LEFT_DOWN
+  )
+)
 
 ; Bjoern Hoehrmann -- <bjoern@hoehrmann.de> -- <http://bjoern.hoehrmann.de>
 
@@ -79,7 +94,7 @@
 
 ; possible moves for player at poscolumn,posrow in field
 (define (getlistofmoves poscolumn posrow field)
-  (grep knightmoves (lambda (m) (not (out-of-bounds?
+  (grep movements (lambda (m) (not (out-of-bounds?
                                       field
                                       (+ poscolumn (move-x m))
                                       (+ posrow (move-y m)))))))
