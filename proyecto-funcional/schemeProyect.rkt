@@ -104,10 +104,10 @@
   (if (> x 9) (number->string x) (string-append " " (number->string x))))
 
 ; a recursive solution for the "Springerproblem"
-(define (turn field x y moves visited)
+(define (turn dimension field x y moves visited)
   (cond
     ; turn should return #t in this case but (exit) is required...
-    ((= visited (* WIDTH HEIGHT)) (display-matrix field) (exit))
+    ((= visited (* dimension dimension)) (display-matrix field) (exit))
     ((null? moves) #f)
     (else
      (let* ((nx (+ x (move-x (car moves))))                ; new x
@@ -115,18 +115,32 @@
             (nv (+ visited 1))                             ; new visited
             (nm (getlistofmoves nx ny field))              ; new moves
             (nf (set-element-at-xy field nx ny nv))        ; new field
-            (uv (= (list-ref-xy field nx ny) empty-char))) ; unvisited?
+            (uv (= (list-ref-xy field nx ny) 0))) ; unvisited?
 
        ; if the next field is visited or if it is unvisited and does not
        ; yield in a solution, try the next move in the list of moves
-       (if (or (and uv (not (turn nf nx ny nm nv))) (not uv))
-           (turn field x y (cdr moves) visited)'())))))
+       (if (or (and uv (not (turn dimension nf nx ny nm nv))) (not uv))
+           (turn dimension field x y (cdr moves) visited)'())))))
+
+; crea el tablero
+(define (crear-tablero dimension)
+  (define (inicializar-lista n)
+  (if (<= n 0) '()
+     (cons 0 (inicializar-lista (- n 1))))
+  )
+  (define (inicializar-arreglo n)
+  (if (<= n 0) '()
+     (cons (inicializar-lista dimension) (inicializar-arreglo (- n 1))))
+  )
+  (inicializar-arreglo dimension)
+)
+
 
 ; Entry point, setup field/possible moves and place knight to start
-(define (start)
-  (let ((field (create-list-xy HEIGHT WIDTH (lambda(x) empty-char))))
-    (if (not (turn (set-element-at-xy field START-X START-Y 1)
-          START-X START-Y (getlistofmoves START-X START-Y field) 1))
+(define (start dimension x y)
+  (let ((field (crear-tablero dimension)))
+    (if (not (turn dimension (set-element-at-xy field x y 1)
+          x y (getlistofmoves x y field) 1))
     (display "There is no applicable solution\n")'())))
 
-(start)
+(start 6 0 0)
